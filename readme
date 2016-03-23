@@ -5,3 +5,7 @@ oauth2 auth plugins(changable)【mq client receive from the cms or crm system】
 oauth2 basic resource server(basic resource -- file/cms[内容升华为资源来进行管控])【接口性质的 pub/sub,可以和plugin结合在一个channel中或者两个通道中都可】
 
 oauth2 auth management system(basic system)（核心的管控页面，管控基本的权限分组和最高级别的权限分组，以及给plugins的权限分组指定资源以及操作行为）。
+
+最外层仅仅用来汇总
+
+https://github.com/rajithd/spring-boot-oauth2

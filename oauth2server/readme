@@ -1,0 +1,6 @@
+//用于鉴权和认证
+//AuthorizationServerSecurityConfigurer 【权限认定】
+//clients和用户关联的的数据库配置[done]
+
+//页面授权方式？(采用授权码换取的形式？
+//oauth_approvals 考虑approval的用意以及可用性？
