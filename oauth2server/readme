@@ -2,5 +2,6 @@
 //AuthorizationServerSecurityConfigurer 【权限认定】
 //clients和用户关联的的数据库配置[done]
 
-//页面授权方式？(采用授权码换取的形式？
+//页面授权方式？采用授权码换取的形式？
 //oauth_approvals 考虑approval的用意以及可用性？
+//把这个完成后，考虑接口的暴露问题，主要暴露给管理员 one key，同时提供使用指南，将这几个授权方式全部实现了，然后整理后，开始实现管理平台

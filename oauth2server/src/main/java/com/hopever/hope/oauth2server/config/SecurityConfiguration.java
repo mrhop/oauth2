@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,6 +34,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
 
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .anyRequest().hasRole("USER")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/login.jsp?authorization_error=true")
+                .and()
+                // TODO: put CSRF protection back into this endpoint
+                .csrf().and()
+//                .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
+//                .disable()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/login").defaultSuccessUrl("/index")
+                .failureUrl("/login?authentication_error=true")
+                .loginPage("/login").permitAll().and().requiresChannel().antMatchers("/**").requiresInsecure();
     }
 
     @Override

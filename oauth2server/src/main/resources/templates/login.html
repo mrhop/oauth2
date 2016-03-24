@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+</head>
+<body>
+<form action="#" th:action="@{/login}" method="post">
+    <p th:if="${param.authentication_error}">Your login attempt was not successful.</p>
+
+    <p th:if="${param.authorization_error}">You are not permitted to access that resource.</p>
+
+    <p>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username"/>
+    </p>
+
+    <p>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"/>
+    </p>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit" th:text="#{user.login}">save</button>
+</form>
+</body>
+</html>

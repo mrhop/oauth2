@@ -1,0 +1,11 @@
+security:
+    oauth2:
+        client:
+            clientId: rajithapp1
+            clientSecret: secret
+            accessTokenUri: http://localhost:9191/api/oauth/token
+            userAuthorizationUri: http://localhost:9191/api/oauth/authorize
+            #clientAuthenticationScheme: form
+        resource:
+            userInfoUri: http://localhost:8181/resource/secure/user/single
+            preferTokenInfo: false

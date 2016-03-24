@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/test.css}" />
+</head>
+<body>
+<authz:authorize access="hasRole('ROLE_USER')">
+        <p th:text="${username}"></p>
+        <form th:action="@{/logout}" role="form" method="post">
+        <input type="hidden" name="${_csrf.parameterName}"
+               value="${_csrf.token}" />
+        <button class="btn btn-primary" type="submit">Logout</button>
+        </form>
+
+</authz:authorize>
+
+</body>
+</html>

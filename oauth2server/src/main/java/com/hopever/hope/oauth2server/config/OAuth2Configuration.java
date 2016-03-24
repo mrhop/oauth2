@@ -1,11 +1,11 @@
 package com.hopever.hope.oauth2server.config;
 
+import com.hopever.hope.oauth2server.security.UserApprovalHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,6 +13,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
@@ -23,6 +27,8 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class OAuth2Configuration {
+
+
 
 
     @Configuration
@@ -38,6 +44,9 @@ public class OAuth2Configuration {
 
         @Autowired
         private DataSource dataSource;
+
+        @Autowired
+        private ClientDetailsService clientDetailsService;
 
 
         @Bean
@@ -65,18 +74,30 @@ public class OAuth2Configuration {
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients.jdbc(dataSource);
-//                    .inMemory()
-//                    .withClient(propertyResolver.getProperty(PROP_CLIENTID)).resourceIds("staff_test")
-//                    .scopes("read", "write")
-//                    .authorities(Authorities.ROLE_ADMIN.name(), Authorities.ROLE_USER.name())
-//                    .authorizedGrantTypes("password", "refresh_token")
-//                    .secret(propertyResolver.getProperty(PROP_SECRET))
-//                    .accessTokenValiditySeconds(propertyResolver.getProperty(PROP_TOKEN_VALIDITY_SECONDS, Integer.class, 1800));
         }
 
         @Override
         public void setEnvironment(Environment environment) {
             this.propertyResolver = new RelaxedPropertyResolver(environment, ENV_OAUTH);
+        }
+
+        @Bean
+        public ApprovalStore approvalStore() throws Exception {
+            TokenApprovalStore store = new TokenApprovalStore();
+            store.setTokenStore(tokenStore());
+            return store;
+        }
+
+        @Bean
+        @Lazy
+        @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+        public UserApprovalHandler userApprovalHandler() throws Exception {
+            UserApprovalHandler handler = new UserApprovalHandler();
+            handler.setApprovalStore(approvalStore());
+            handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
+            handler.setClientDetailsService(clientDetailsService);
+            handler.setUseApprovalStore(true);
+            return handler;
         }
 
     }

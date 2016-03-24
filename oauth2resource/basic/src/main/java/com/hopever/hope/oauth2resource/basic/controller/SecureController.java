@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
+
 /**
  * Created by Donghui Huo on 2016/3/23.
  */
@@ -15,5 +17,11 @@ public class SecureController {
     @ResponseBody
     public String sayHello() {
         return "Secure Hello!";
+    }
+
+    @RequestMapping("/user/single")
+    @ResponseBody
+    public Principal getTrustedUserSingle(Principal principal) {
+        return principal;
     }
 }
