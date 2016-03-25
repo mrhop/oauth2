@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8"/>
     <title>index</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/test.css}"/>
 </head>
 <body>
-<p th:if="${username}" th:text="${username}"></p>
+<th:block th:if="${username}">
+<p th:text="${username}"></p>
 <form th:action="@{/logout}" role="form" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <button class="btn btn-primary" type="submit">Logout</button>
 </form>
-
-<p th:unless="${username}"><a th:href="@{/login}">112</a></p>
+    <p>
+        <a th:href="@{/author1}">test author1</a>
+    </p>
+</th:block>
+<p th:unless="${username}"><a th:href="@{/login}">login</a></p>
 </body>
 </html>

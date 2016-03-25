@@ -18,9 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http
                 .authorizeRequests()
-                .anyRequest().authenticated();
-//                .and().csrf().disable();
-        // @formatter:on
+                .anyRequest().authenticated().and().logout().logoutUrl("/logout").permitAll()
+                .logoutSuccessUrl("/index");
     }
 
     @Override
@@ -28,6 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         web
                 .ignoring()
-                .antMatchers("/index");
+                .antMatchers("/index").antMatchers("/author1");
     }
 }

@@ -15,7 +15,7 @@ import java.security.Principal;
 public class SecureController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public String sayHello() {
+    public String sayHello(Principal principal) {
         return "Secure Hello!";
     }
 
