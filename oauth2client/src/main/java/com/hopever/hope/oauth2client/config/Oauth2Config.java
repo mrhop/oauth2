@@ -4,14 +4,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -32,6 +35,10 @@ public class Oauth2Config {
         @Value("${security.oauth2.client.userAuthorizationUri}")
         private String userAuthorizationUri;
 
+        @Resource
+        @Qualifier("accessTokenRequest")
+        private AccessTokenRequest accessTokenRequest;
+
 
         @Bean
         public OAuth2ProtectedResourceDetails authorWithAuthorizationCode() {
@@ -48,12 +55,17 @@ public class Oauth2Config {
 
 
 
+        @Bean
+        @Qualifier("authorWithAuthorizationCodeClientContext")
+        @Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
+        public OAuth2ClientContext authorWithAuthorizationCodeClientContext() {
+            return new DefaultOAuth2ClientContext(accessTokenRequest);
+        }
 
         @Bean
         @Qualifier("authorWithAuthorizationCodeTemplate")
         public OAuth2RestTemplate authorWithAuthorizationCodeTemplate() {
-            OAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(new DefaultAccessTokenRequest());
-            return new OAuth2RestTemplate(authorWithAuthorizationCode(), clientContext);
+            return new OAuth2RestTemplate(authorWithAuthorizationCode(), authorWithAuthorizationCodeClientContext());
         }
 
     }
