@@ -19,8 +19,8 @@
 					<th:block th:each="scope : ${scopes}" >
 						<li>
 							<div class="form-group" th:inline="text">
-									[[${scope.key}]]: <input type="radio" th:name="${scope.key}" value="true" th:checked="${scope.value}?'checked':'' ">Approve</input>
-								<input type="radio" th:name="${scope.key}" value="false" th:checked="${scope.value}?'':'checked' ">Deny</input>
+									[[${scope.key}]]: <input type="radio" th:name="${scope.key}" value="true" th:checked="${scope.value=='true'}">Approve</input>
+								<input type="radio" th:name="${scope.key}" value="false" th:checked="${scope.value=='false'}">Deny</input>
 							</div>
 						</li>
 					</th:block>

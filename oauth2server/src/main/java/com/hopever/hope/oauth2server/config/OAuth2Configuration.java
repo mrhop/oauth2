@@ -4,6 +4,7 @@ import com.hopever.hope.oauth2server.security.UserApprovalHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -15,12 +16,13 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Donghui Huo on 2016/3/23.
@@ -28,8 +30,12 @@ import javax.sql.DataSource;
 @Configuration
 public class OAuth2Configuration {
 
-
-
+    @Bean
+    public TomcatEmbeddedServletContainerFactory tomcatContainerFactory() {
+        TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
+        factory.setSessionTimeout(5, TimeUnit.MINUTES);
+        return factory;
+    }
 
     @Configuration
     @EnableAuthorizationServer
@@ -68,7 +74,7 @@ public class OAuth2Configuration {
 
         @Override
         public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-           oauthServer.checkTokenAccess("isAuthenticated()");
+            oauthServer.checkTokenAccess("isAuthenticated()");
         }
 
         @Override
@@ -83,8 +89,7 @@ public class OAuth2Configuration {
 
         @Bean
         public ApprovalStore approvalStore() throws Exception {
-            TokenApprovalStore store = new TokenApprovalStore();
-            store.setTokenStore(tokenStore());
+            JdbcApprovalStore store = new JdbcApprovalStore(dataSource);
             return store;
         }
 

@@ -2,6 +2,7 @@ package com.hopever.hope.oauth2client.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,10 +25,13 @@ public class SimpleController {
     @Qualifier("authorWithAuthorizationCodeTemplate")
     private OAuth2RestTemplate authorWithAuthorizationCodeTemplate;
 
+    @Autowired
+    private OAuth2ClientContext oauth2ClientContext;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap model, Principal principal, HttpServletRequest request) {
         HttpSession a = request.getSession();
-        if(principal!=null) {
+        if (principal != null) {
             String name = principal.getName();
             model.addAttribute("username", name);
         }
@@ -37,7 +41,8 @@ public class SimpleController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index1(ModelMap model, Principal principal) {
-        if(principal!=null) {
+        System.out.println("expiresIn:" + oauth2ClientContext.getAccessToken().getExpiresIn());
+        if (principal != null) {
             String name = principal.getName();
             model.addAttribute("username", name);
         }
@@ -48,6 +53,13 @@ public class SimpleController {
     @RequestMapping(value = "/author1", method = RequestMethod.GET)
     @ResponseBody
     public String authorWithAuthorizationCode(ModelMap model, Principal principal) {
-        return authorWithAuthorizationCodeTemplate.getForEntity(URI.create("http://localhost:8181/resource/secure"),String.class).getBody();
+        return authorWithAuthorizationCodeTemplate.getForEntity(URI.create("http://localhost:8181/resource/secure"), String.class).getBody();
+    }
+
+
+    @RequestMapping(value = "/useRefreshToken", method = RequestMethod.GET)
+    @ResponseBody
+    public String useRefreshToken(ModelMap model, Principal principal) {
+        return "test";
     }
 }

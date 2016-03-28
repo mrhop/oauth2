@@ -42,6 +42,7 @@ dependencies {
     compile 'org.springframework.security:spring-security-taglibs'
     compile 'org.springframework.security.oauth:spring-security-oauth2'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.apache.httpcomponents:httpclient'
     compile 'org.jooq:jooq:3.7.2'
     compile 'com.h2database:h2'
 

@@ -10,8 +10,10 @@ INSERT INTO user_authority (username,authority) VALUES ('user', 'ROLE_USER');
 INSERT INTO user_authority (username,authority) VALUES ('admin', 'ROLE_USER');
 INSERT INTO user_authority (username,authority) VALUES ('admin', 'ROLE_ADMIN');
 
+INSERT INTO oauth_approvals (userId,	clientId,	scope ,status) VALUES ('admin', 'rajithapp1','read','APPROVED');
+
 
 INSERT INTO oauth_client_details (client_id,resource_ids, client_secret, scope,authorities,authorized_grant_types,access_token_validity) VALUES ('rajithapp', 'staff_test,staff_test1', 'secret', 'read,write','ROLE_ADMIN,ROLE_USER','password,refresh_token',1800);
-INSERT INTO oauth_client_details (client_id,resource_ids, client_secret, scope,authorities,authorized_grant_types,access_token_validity) VALUES ('rajithapp1', 'staff_test,staff_test1', 'secret', 'read,write','ROLE_ADMIN,ROLE_USER','authorization_code,refresh_token',1800);
+INSERT INTO oauth_client_details (client_id,resource_ids, client_secret, scope,authorities,authorized_grant_types,access_token_validity,autoapprove) VALUES ('rajithapp1', 'staff_test,staff_test1', 'secret', 'read,write','ROLE_ADMIN,ROLE_USER','authorization_code,refresh_token',30,'false');
 INSERT INTO oauth_client_details (client_id,resource_ids, client_secret, scope,authorities,authorized_grant_types,access_token_validity) VALUES ('rajithapp2', 'staff_test,staff_test1', 'secret', 'read,write','ROLE_ADMIN,ROLE_USER','authorization_code,client_credentials',1800);
 INSERT INTO oauth_client_details (client_id,resource_ids, client_secret, scope,authorities,authorized_grant_types,access_token_validity) VALUES ('rajithapp3', 'staff_test,staff_test1', 'secret', 'read,write','ROLE_ADMIN,ROLE_USER','authorization_code,implicit',1800);
