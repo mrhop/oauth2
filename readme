@@ -9,3 +9,9 @@ oauth2 auth management system(basic system)（核心的管控页面，管控基�
 最外层仅仅用来汇总
 
 https://github.com/rajithd/spring-boot-oauth2
+
+http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html [oauth2 的完整理解以及curl的测试]
+
+现在需要做的是plugin和ms，这两个可以整合在一个，也可以拆分开
+plugin使用pub/sub接口方式
+ms使用管理系统的方式管理鉴权和授权

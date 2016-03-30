@@ -4,7 +4,7 @@
     <title>JS Client Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" th:src="@{/js/jquery-1.12.2.min.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.12.2.js}" ></script>
     <script type="text/javascript" th:src="@{/js/jso.js}" ></script>
     <script type="text/javascript">
         $(document)
@@ -34,6 +34,7 @@
                                                     .text(data);
                                         }
                                     });
+                            //获取完成后清理localStorage数据
                             jso_wipe();
                         });
     </script>
