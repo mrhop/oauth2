@@ -1,3 +1,5 @@
 rootProject.name = 'oauth2'
 
-include 'oauth2server','oauth2resource/basic','oauth2plugin','oauth2ms','oauth2client'
+
+
+include 'oauth2server','oauth2resource/basic','oauth2plugin','oauth2ms','oauth2client','oauth2dm','oauth2util'

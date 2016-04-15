@@ -9,22 +9,18 @@ jar{
         attributes 'Implementation-Title': 'Gradle Quickstart',
                 'Implementation-Version': '1.0'}
 }
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'io.spring.gradle:dependency-management-plugin:'+rootProject.springDependencyManagementPluginVersion
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:'+rootProject.springBootGradlePluginVersion
     }
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'spring-boot'
 
-bootRun {
-    addResources = true
-}
 repositories {
     mavenCentral()
 }
@@ -35,16 +31,9 @@ dependencyManagement {
     }
 }
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-tomcat'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.security:spring-security-taglibs'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile project(':oauth2util')
-    compile 'org.jooq:jooq:3.7.2'
-    compile 'com.h2database:h2'
+    compile 'org.apache.httpcomponents:httpclient'
+    compile 'org.springframework:spring-web'
+    compile 'javax.validation:validation-api'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework:spring-test'
